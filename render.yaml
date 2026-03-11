@@ -1,0 +1,40 @@
+services:
+  - type: web
+    name: students-backend
+    env: node
+    region: oregon
+    plan: free
+    rootDir: backend
+    buildCommand: npm ci && npm run build
+    startCommand: npm run start:prod
+    autoDeploy: true
+    envVars:
+      - key: PORT
+        value: 3000
+      - key: DB_HOST
+        fromDatabase:
+          name: students-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: students-db
+          property: port
+      - key: DB_USER
+        fromDatabase:
+          name: students-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: students-db
+          property: password
+      - key: DB_NAME
+        fromDatabase:
+          name: students-db
+          property: database
+      - key: CORS_ORIGIN
+        value: https://your-vercel-app.vercel.app
+
+databases:
+  - name: students-db
+    databaseName: students
+    user: students_user
